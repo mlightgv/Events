@@ -12,10 +12,6 @@
       <th>Agenda</th>
       <th>Address</th>
       <th>Organizer</th>
-      <th>Created at</th>
-      <th>Time</th>
-      <th>Updated at</th>
-      <th>Time</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -30,10 +26,6 @@
         <td><%= event.agenda %></td>
         <td><%= event.address %></td>
         <td><%= event.organizer_id %></td>
-        <td><%= event.created_at %></td>
-        <td><%= event.time %></td>
-        <td><%= event.updated_at %></td>
-        <td><%= event.time %></td>
         <td><%= link_to 'Show', event %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>
         <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
