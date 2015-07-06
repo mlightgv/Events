@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'devise'
+gem 'friendly_id', '5.0.0.beta1'
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
+                              :github => 'anjlab/bootstrap-rails',
+                              :branch => '3.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.2'
 # Use postgresql as the database for Active Record
