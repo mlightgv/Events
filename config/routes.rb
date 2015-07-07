@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   get 'tags/:tag', to: 'events#index', as: :tag
-
+  get  :my_events, to: 'events#my_events', as: 'my_events'
+  get "home/index"
   resources :events do
      get  :join, to: 'events#join', as: 'join'
      get  :accept_request, to: 'events#accept_request', as: 'accept_request'
