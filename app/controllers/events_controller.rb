@@ -17,6 +17,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+  	@event_owner = @event.event_owner(@event.organizer_id)
   end
 
   # GET /events/new

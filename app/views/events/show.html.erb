@@ -40,6 +40,11 @@
   <%=raw @event.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %>
 </p>
 
+<p>
+  <strong>Organizer by:</strong>
+  <%= image_tag avatar_url(@event_owner) %>
+  <%= @event_owner.email %>
+</p>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

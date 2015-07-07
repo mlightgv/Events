@@ -22,5 +22,9 @@ class Event < ActiveRecord::Base
 	def all_tags
     	tags.map(&:name).join(", ")
     end
+
+	def event_owner(organizer_id)
+		User.find_by id: organizer_id
+	end
 	
 end
