@@ -12,19 +12,19 @@ class EventsController < ApplicationController
 	# GET /events
 	# GET /events.json
 	def index
-	if params[:tag]
-		@events = Event.tagged_with(params[:tag])
-	else
-		@events = Event.all
-	end
+		if params[:tag]
+			@events = Event.tagged_with(params[:tag])
+		else
+			@events = Event.all
+		end
 	end
 
 	# GET /events/1
 	# GET /events/1.json
 	def show
 		@event_owner = @event.event_owner(@event.organizer_id)
-		@pending_requests = Attendance.pending.where(event_id: @event.id)
-		@attendees = Attendance.accepted.where(event_id: @event.id)
+		@pending_requests = Attendance.with_rejected_state.where(event_id: @event.id)
+		@attendees = Attendance.with_accepted_state.where(event_id: @event.id)
 	end
 
 	# GET /events/new
@@ -98,7 +98,8 @@ class EventsController < ApplicationController
 		respond_with(@attendance)
 	end
 
-  private
+  	private
+  	
 	# Use callbacks to share common setup or constraints between actions.
 	def set_event
 		@event = Event.friendly.find(params[:id])
