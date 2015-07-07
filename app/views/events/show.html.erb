@@ -41,6 +41,10 @@
 </p>
 
 <p>
+  <%= link_to "Join", event_join_path(:event_id => @event.id), :class=>"btn btn-success btn-small" %>
+</p>
+
+<p>
   <strong>Organizer by:</strong>
   <%= image_tag avatar_url(@event_owner) %>
   <%= @event_owner.email %>
