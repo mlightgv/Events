@@ -1,11 +1,17 @@
 class EventsController < ApplicationController
+
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
   before_action :event_owner!, only: [:edit, :update, :destroy]
+
   # GET /events
   # GET /events.json
   def index
-	@events = Event.all
+	if params[:tag]
+		@events = Event.tagged_with(params[:tag])
+	else
+		@events = Event.all
+	end
   end
 
   # GET /events/1
