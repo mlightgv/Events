@@ -7,4 +7,17 @@ class Attendance < ActiveRecord::Base
 		self.create(user_id: user_id, event_id: event_id, state: state)
 	end
 
+	include Workflow
+
+	workflow_column :state
+
+	workflow do
+		state :request_sent do
+			event :accept, :transitions_to => :accepted
+			event :reject, :transitions_to => :rejected
+		end
+		state :accepted
+		state :rejected
+	end
+
 end
