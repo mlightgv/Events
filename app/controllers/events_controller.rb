@@ -19,6 +19,8 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
   	@event_owner = @event.event_owner(@event.organizer_id)
+  	@pending_requests = Attendance.pending.where(event_id: @event.id)
+    @attendees = Attendance.accepted.where(event_id: @event.id)
   end
 
   # GET /events/new
@@ -95,7 +97,7 @@ class EventsController < ApplicationController
   private
 	# Use callbacks to share common setup or constraints between actions.
 	def set_event
-	  @event = Event.find(params[:id])
+	  @event = Event.friendly.find(params[:id])
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
