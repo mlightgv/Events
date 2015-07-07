@@ -9,5 +9,9 @@ class Event < ActiveRecord::Base
 			Tag.where(name: n.strip).first_or_create!
 		end
 	end
+
+	def all_tags
+    	tags.map(&:name).join(", ")
+    end
 	
 end
