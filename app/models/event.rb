@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
 
 	extend FriendlyId
   	friendly_id :title, use: :slugged
+
 	belongs_to :organizers, class_name: "User"
 
 	has_many :taggings
@@ -30,19 +31,15 @@ class Event < ActiveRecord::Base
     end
 
 	def event_owner(organizer_id)
-		User.find_by id: organizer_id
+		User.find_by(id: organizer_id)
 	end
 
 	def self.pending_requests(event_id)
-		Attendance.pending.where(event_id: event_id)
+		Attendance.where(event_id: event_id, state: 'request_sent')
 	end
 
 	def self.show_accepted_attendees(event_id)
-		Attendance.accepted.where(event_id: event_id)
-	end
-
-	def self.show_my_events(organizer_id)
-		Event.where(organizer_id: organizer_id)
+		Attendance.where(event_id: event_id, state: 'accepted')
 	end
 	
 end

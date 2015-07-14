@@ -1,13 +1,10 @@
 class EventsController < ApplicationController
 
-	before_action :set_event, only: [:show, :edit, :update, :destroy, :accept_request, :reject_request]
+	before_action :set_event, only: [:show, :edit, :update, :destroy]
 	before_filter :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :join]
-	before_action :event_owner!, only: [:edit,:update,:destroy,:accept, :reject]
+	before_action :event_owner!, only: [:edit, :update, :destroy, :accept, :reject]
 	respond_to :html, :json
-
-	def my_events
-		@events = Event.show_accepted_attendees(current_user.id)
-	end
+ 
 
 	# GET /events
 	# GET /events.json
@@ -23,13 +20,19 @@ class EventsController < ApplicationController
 	# GET /events/1.json
 	def show
 		@event_owner = @event.event_owner(@event.organizer_id)
-		@pending_requests = Attendance.with_rejected_state.where(event_id: @event.id)
+		@pending_requests = Attendance.with_request_sent_state.where(event_id: @event.id)
 		@attendees = Attendance.with_accepted_state.where(event_id: @event.id)
+		@going = @attendees.where(user_id: current_user.id)
 	end
 
 	# GET /events/new
 	def new
 		@event = Event.new
+	end
+
+	def my_events
+		@event_owner = User.find_by(id: current_user.id)
+		@events = Event.where(organizer_id: current_user.id)
 	end
 
 	# GET /events/1/edit
@@ -76,10 +79,15 @@ class EventsController < ApplicationController
 		end
 	end
 
+	def tag_cloud
+		@tags = Event.tag_counts_on(:tags)
+	end
+
 	def join
 		@attendance = Attendance.join_event(current_user.id, params[:event_id], 'request_sent')
 		'Request Sent' if @attendance.save
-		respond_with(@attendance)
+		redirect_to events_url
+		#respond_with(@attendance)
 	end
 
 	def accept_request
@@ -87,15 +95,17 @@ class EventsController < ApplicationController
 		@attendance = Attendance.find_by(id: params[:attendance_id]) rescue nil
 		@attendance.accept!
 		'Applicant Accepted' if @attendance.save
-		respond_with(@attendance)
+		redirect_to events_url
+		#respond_with(@attendance)
 	end
 
 	def reject_request
 		@event = Event.find(params[:event_id])
-		@attendance = Attendance.where(params[:attendance_id]) rescue nil
+		@attendance = Attendance.find_by(id: params[:attendance_id]) rescue nil
 		@attendance.reject!
 		'Applicant Rejected' if @attendance.save
-		respond_with(@attendance)
+		redirect_to events_url
+		#respond_with(@attendance)
 	end
 
   	private

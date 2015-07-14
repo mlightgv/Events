@@ -3,9 +3,11 @@ class Attendance < ActiveRecord::Base
 	belongs_to :event
 	belongs_to :user
 
-	def self.join_event(user_id, event_id, state)
-		self.create(user_id: user_id, event_id: event_id, state: state)
-	end
+	validates :user_id, :uniqueness => {:scope => :event_id}
+
+	scope :pending, -> {where(state: 'request_sent')}
+	scope :accepted, -> {where(state: 'accepted')}
+	scope :rejected, -> {where(state: 'rejected')}
 
 	include Workflow
 
@@ -18,6 +20,10 @@ class Attendance < ActiveRecord::Base
 		end
 		state :accepted
 		state :rejected
+	end
+
+	def self.join_event(user_id, event_id, state)
+		self.create(user_id: user_id, event_id: event_id, state: state)
 	end
 
 end
