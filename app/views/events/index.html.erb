@@ -1,32 +1,79 @@
 
- <div class="jumbotron">
-     <div class="container">
-     	<div class="row">
-        	<div class="col-sm-8 blog-main">
-		        <h1>Hello, world!</h1>
-		        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-		    </div>
-		    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-			<div class="sidebar-module">
-				<h3>Search Tags</h3>  
-				<% tag_cloud Event.tag_counts, %w{css1 css2 css3 css4} do |tag, css_class| %>
-					<%= link_to tag.name, tag_path(tag.name), class: css_class %>
-				<% end %>  
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<%= image_tag("melbourne1.jpg", :class => "first-slide") %>
+			<div class="container">
+				<div class="carousel-caption">
+					<h1>Events.</h1>
+					<p>Ne eum commodo intellegebat, inermis elaboraret contentiones eam in, ea eos eruditi offendit. Per ex adhuc augue, cu vis erat primis. Elitr labore voluptua ei usu, id eum eruditi reformidans. Vitae probatus ullamcorper eam ex.</p>
+					<p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+				</div>
 			</div>
 		</div>
-		 </div>  
-         
-     </div>
-</div>
+		<div class="item">
+			<%= image_tag("melbourne2.jpg", :class => "second-slide") %>
+			<div class="container">
+				<div class="carousel-caption">
+					<h1>Follow us.</h1>
+					<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+					<p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<%= image_tag("melbourne4.jpg", :class => "third-slide") %>
+			<div class="container">
+				<div class="carousel-caption">
+					<h1>One more for good measure.</h1>
+						<p>Vel ad solum ceteros sadipscing. Est magna populo docendi ne, modus euismod cum ei. Nec vitae tollit democritum at. Ut nam mazim quidam, his insolens oportere ea..</p>
+						<p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div><!-- /.carousel -->
+
+
+ 	<div class="jumbotron">
+     	<div class="container">
+	        <h1>The best events</h1>
+	        <p>Lorem ipsum dolor sit amet, simul debitis vituperatoribus et cum, cu everti sanctus quo. Diceret nusquam temporibus mei cu, ne duo atomorum pertinacia. Docendi delicata te est, errem dissentias vim ne. At saperet scaevola vis. His virtute inermis no, vel ea nominavi democritum, laboramus abhorreant voluptatibus vim at. In pro voluptua detraxit definitionem, eu usu stet perfecto lobortis..</p>
+     	</div>
+	</div>
 
 <div class="container">
+	<h2>Search Tags</h2>  
+		<% tag_cloud Event.tag_counts, %w{css1 css2 css3 css4} do |tag, css_class| %>
+			<%= link_to tag.name, tag_path(tag.name), class: css_class %>
+		<% end %>  
+	<br/>
+	<br/>
+	<%= link_to 'Create an Event', new_event_path, :class=>"btn btn-default btn-primary" %>
+	<br/>
+	<h2>Recently Created Events</h2> 
 	<div class="row">
-		<h3>Recently Created Events</h3>  
 		<% @events.each do |event| %>
 			<div class="col-xs-6 col-lg-4">
 				<div class="thumbnail">
 					<div class="caption">
-						<h3><%= event.title %></h3>  
+						<h3><%= event.title %></h3> 
 						<label>Start Date:</label>
 						<%if event.star_date.present?%>
 							<%= l event.star_date, :format => :date_format %>
@@ -60,7 +107,5 @@
 			</div>
 		<% end %>
 	</div>
-	<%= link_to 'Create an Event', new_event_path, :class=>"btn btn-default btn-primary" %>
 </div>
-<br>
 

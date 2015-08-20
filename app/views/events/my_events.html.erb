@@ -1,41 +1,51 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-4">
-        <h3>Recently Created Events</h3>  
-        <% @events.each do |event| %>
-            <h3><%= event.title %></h3>  
-            <label>Start Date:</label><%= l event.star_date, :format => :date_format %>
-            <br/>
-            <label>End Date:</label><%= l event.end_date, :format => :date_format %>
-            <br/>
-            <label>Location:</label><%= event.location %>
-            <br/>
-            <label>Address:</label>
-            <address>
-            <%= event.address %><br/>
-            </address>
-            <label>Agenda:</label>
-            <%= event.agenda %>
-            <br/>
-            <label>Organized By:</label>
-            <br/>
-            <%= image_tag avatar_url(@event_owner) %>
-            <%= @event_owner.email %>
-            <br/>
-            <!-- Display Tags-->
-            <label>Tags:</label><br/>
-            <%=raw event.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %>
-            <br/><br/>
-            <%= link_to 'Show Details', event, :class=>"btn btn-info btn-small" %>
-            <% if user_signed_in? && event.organizer_id == current_user.id %>
-                <%= link_to 'Edit', edit_event_path(event), :class=>"btn btn-primary btn-small" %>
-                <%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger btn-small" %>
-            <%end%>
-            <br/><br/>
-        <% end %>
-    </div>
     <%= render "tag_cloud"%>
-    <br>
+    <br/>
     <%= link_to 'Create an Event', new_event_path, :class=>"btn btn-default btn-primary" %>
+    <br/>
+    <h1>Recently Created Events</h1>  
+    <div class="row">       
+        <% @events.each do |event| %>
+            <div class="col-xs-6 col-lg-4">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3><%= event.title %></h3>  
+                        <label>Start Date:</label><%= l event.star_date, :format => :date_format %>
+                        <br/>
+                        <label>End Date:</label><%= l event.end_date, :format => :date_format %>
+                        <br/>
+                        <label>Location:</label><%= event.location %>
+                        <br/>
+                        <label>Address:</label>
+                        <address>
+                        <%= event.address %><br/>
+                        </address>
+                        <label>Agenda:</label>
+                        <%= event.agenda %>
+                        <br/>
+                        <br/>
+                        <label>Organized By:</label>
+                        <br/>
+                        <%= image_tag avatar_url(@event_owner) %>
+                        <%= @event_owner.email %>
+                        <br/>
+                        <br/>
+                        <!-- Display Tags-->
+                        <label>Tags:</label><br/>
+                        <%=raw event.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %>
+                        <br/>
+                        <br/>
+                        <%= link_to 'Show Details', event, :class=>"btn btn-info btn-small" %>
+                        <% if user_signed_in? && event.organizer_id == current_user.id %>
+                        <%= link_to 'Edit', edit_event_path(event), :class=>"btn btn-primary btn-small" %>
+                        <%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger btn-small" %>
+                        <%end%>
+                        <br/><br/>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+     </div>
+   
  </div>   
 
